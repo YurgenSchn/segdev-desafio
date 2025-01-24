@@ -63,6 +63,7 @@ class Insurance::RecommendationService
 
     def risk_analysis_disability
         return if income == 0
+        return if age > 60
 
         risk = base_score
         risk += 1 if data.dig(:house, :ownership_status) == "rented"
@@ -126,7 +127,7 @@ class Insurance::RecommendationService
     def validate_house_ownership
         return unless data.dig(:house)
         return errors.add(:house, "missing house information") unless data.dig(:house, :ownership_status)         
-        return errors.add(:house, "ownership_status should bevalid 'owned' or 'rented'") unless %w[owned rented].include?(data.dig(:house, :ownership_status))
+        return errors.add(:house, "ownership_status should be 'owned' or 'rented'") unless %w[owned rented].include?(data.dig(:house, :ownership_status))
     end
       
     def validate_vehicle_year
@@ -138,6 +139,6 @@ class Insurance::RecommendationService
     end
 
     def validate_risk_questions
-        errors.add(:risk_questions, "must be an array of 3 integers") unless data[:risk_questions] && data[:risk_questions].size == 3 && data[:risk_questions].all? { |a| a.is_a?(Integer) }
+        errors.add(:risk_questions, "must be an array of 3 integers") unless (data[:risk_questions] && data[:risk_questions].size == 3 && data[:risk_questions].all? { |a| a.is_a?(Integer) })
     end
 end
