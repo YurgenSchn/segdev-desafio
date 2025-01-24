@@ -1,24 +1,40 @@
-# README
+## Configuração
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### 1) Clonar o Repositório
 
-Things you may want to cover:
+```bash
+git clone https://https://github.com/YurgenSchn/segdev-desafio.git
+cd segdev-desafio
+```
 
-* Ruby version
+### 2) Build dos containers
 
-* System dependencies
+```bash
+docker compose up --build
+```
 
-* Configuration
+### 3) Testes
 
-* Database creation
+Basta acessar o terminal de dentro do container, para rodar os testes. Utilizei RSPEC.
+```bash
+docker compose exec web sh
+rspec
+```
 
-* Database initialization
+É possível lançar a requisição com o *Postman* ou programa similar.
 
-* How to run the test suite
+O endpoint é POST *http://localhost:3000/v1/insurance/recommended-plans*
 
-* Services (job queues, cache servers, search engines, etc.)
+O body deve ser:
 
-* Deployment instructions
-
-* ...
+```json
+{
+    "age": 35,
+    "dependents": 2,
+    "house": {"ownership_status": "owned"},
+    "income": 0,
+    "marital_status": "married",
+    "risk_questions": [0, 1, 0],
+    "vehicle": {"year": 2018}
+}
+```
