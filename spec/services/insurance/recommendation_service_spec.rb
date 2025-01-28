@@ -1,44 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Insurance::RecommendationService, type: :service do
-  
     let(:valid_params) do
         {
           age: 50,
           dependents: 2,
           income: 70000,
           marital_status: "married",
-          risk_questions: [0, 1, 0],
+          risk_questions: [ 0, 1, 0 ],
           house: { ownership_status: "owned" },
           vehicle: { year: 2018 }
         }
-    end
-
-    describe 'Data validation' do
-        it 'Invalid risk questionaire array - Error Response' do
-            modified_params = valid_params.merge(risk_questions: ["1","2"])
-            service = ::Insurance::RecommendationService.new(modified_params)
-            expect(service.valid?).to be_falsey
-        end
-
-        it 'Invalid house - Error Response' do
-            modified_params = valid_params.merge(house: { acquisition_date: 2024-03-12 })
-            service = ::Insurance::RecommendationService.new(modified_params)
-            expect(service.valid?).to be_falsey
-        end
-
-        it 'Invalid vehicle - Error Response' do
-            modified_params = valid_params.merge(vehicle: { acquisition_date: 2024-03-12 })
-            service = ::Insurance::RecommendationService.new(modified_params)
-            expect(service.valid?).to be_falsey
-        end
-
-        it 'Invalid marital status - Error Response' do
-            modified_params = valid_params.merge(marital_status: "complicado")
-            service = ::Insurance::RecommendationService.new(modified_params)
-            expect(service.valid?).to be_falsey
-        end
-
     end
 
     describe 'Risk analysis and plan recommendation' do
@@ -58,7 +30,7 @@ RSpec.describe Insurance::RecommendationService, type: :service do
                 modified_params = valid_params.merge(house: nil)
                 service = ::Insurance::RecommendationService.new(modified_params)
                 expect(service.recommend_plans).to include({
-                    home: "inelegivel",
+                    home: "inelegivel"
                 })
             end
         end
@@ -68,7 +40,7 @@ RSpec.describe Insurance::RecommendationService, type: :service do
                 modified_params = valid_params.merge(vehicle: nil)
                 service = ::Insurance::RecommendationService.new(modified_params)
                 expect(service.recommend_plans).to include({
-                    auto: "inelegivel",
+                    auto: "inelegivel"
                 })
             end
         end
@@ -78,7 +50,7 @@ RSpec.describe Insurance::RecommendationService, type: :service do
                 modified_params = valid_params.merge(income: 0)
                 service = ::Insurance::RecommendationService.new(modified_params)
                 expect(service.recommend_plans).to include({
-                    disability: "inelegivel",
+                    disability: "inelegivel"
                 })
             end
         end
@@ -95,6 +67,5 @@ RSpec.describe Insurance::RecommendationService, type: :service do
                 })
             end
         end
-
     end
 end

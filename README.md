@@ -23,7 +23,7 @@ rspec
 
 É possível lançar a requisição com o *Postman* ou programa similar.
 
-O endpoint é POST *http://localhost:3000/v1/insurance/recommended-plans*
+O endpoint é GET *http://localhost:3000/v1/insurance/recommended-plans*
 
 O body deve ser:
 

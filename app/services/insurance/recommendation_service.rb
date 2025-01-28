@@ -1,31 +1,12 @@
 class Insurance::RecommendationService
-    
-    include ActiveModel::Validations
   
     attr_reader :data
-  
-    validates :age, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-    validates :dependents, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-    validates :income, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-    validates :marital_status, inclusion: { in: %w[single married] }
-    validate :validate_risk_questions
-    validate :validate_house_ownership
-    validate :validate_vehicle_year
-    
-    #===================================#
 
     def initialize(params)
         @data = params.to_h.transform_keys(&:to_sym)
     end
-    
-    def valid? # override of ActiveModel::Validations
-        @data && super
-    end
-
 
     def recommend_plans
-        return {} unless valid?
-
         {
             auto: recommended_plan(risk_analysis_auto),
             disability: recommended_plan(risk_analysis_disability),
